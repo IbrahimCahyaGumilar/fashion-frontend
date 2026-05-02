@@ -1,6 +1,7 @@
 import React from 'react'
 
-import blog1 from '../assets/images/blog/blog1.jpg';
+import visi from '../assets/images/home/about.png';
+import misi from '../assets/images/blog/blog1.jpg';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import HeroSection from '../components/common/HeroSection';
@@ -37,7 +38,7 @@ const About = () => {
                 <div className="flex flex-col lg:flex-row relative w-full">
 
                     <div className="relative w-full lg:w-1/2">
-                        <img src="/src/assets/images/home/about.png" alt="images visi"
+                        <img src={visi} alt="images visi"
                             className="w-full h-4/5 object-cover" />
 
                         <div
@@ -50,7 +51,7 @@ const About = () => {
                     </div>
 
                     <div className="relative w-full lg:w-1/2">
-                        <img src={blog1} alt="images visi"
+                        <img src={misi} alt="images misi"
                             className="w-full h-4/5 object-cover" />
 
                         <div
