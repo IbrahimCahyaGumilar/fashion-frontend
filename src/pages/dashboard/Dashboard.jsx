@@ -1,42 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux'; 
-import { useNavigate } from 'react-router-dom'; 
+import { useSelector } from 'react-redux';
 import axios from 'axios';
-import { Users, FileText, Layout } from 'lucide-react';
+import { Users, FileText, Layout } from 'lucide-react'; // Menggunakan Lucide untuk ikon
 import api from '../../api/axios';
 
 const Dashboard = () => {
-  
-    const { user, isLoading, isError } = useSelector((state) => state.auth);
-    const navigate = useNavigate();
-
+    const { user } = useSelector((state) => state.auth);
     const [stats, setStats] = useState({
         totalUsers: 0,
         totalBlogs: 0,
         myBlogs: 0
     });
 
-    
-    useEffect(() => {
-        if (!isLoading && (isError || !user)) {
-            navigate("/login");
-        }
-    }, [isLoading, isError, user, navigate]);
-
     useEffect(() => {
         const fetchStats = async () => {
             try {
-                
+                // Ambil data Blog
                 const resBlogs = await api.get('/myblogs', {
                     withCredentials: true
                 });
                 const allBlogs = resBlogs.data;
-
                 
+                // Hitung blog milik user yang login saat ini
                 const myBlogsCount = allBlogs.filter(blog => blog.author.email === user?.email).length;
 
                 if (user?.role === "admin") {
-                    
+                    // Jika admin, ambil juga data User
                     const resUsers = await api.get('/users');
                     setStats({
                         totalUsers: resUsers.data.length,
@@ -51,26 +40,8 @@ const Dashboard = () => {
             }
         };
 
-      
-        if (user && !isLoading) {
-            fetchStats();
-        }
-    }, [user, isLoading]);
-
-    
-    if (isLoading) {
-        return (
-            <div className="flex justify-center items-center h-screen bg-slate-50">
-                <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-                    <p className="mt-4 text-slate-600 font-medium">Memeriksa Autentikasi...</p>
-                </div>
-            </div>
-        );
-    }
-
-   
-    if (!user) return null;
+        if (user) fetchStats();
+    }, [user]);
 
     return (
         <div className="p-4">

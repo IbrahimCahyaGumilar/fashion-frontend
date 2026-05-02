@@ -21,10 +21,8 @@ const Login = () => {
         if (user || isSuccess) {
             navigate("/dashboard");
         }
-        return () => {
-        dispatch(reset());
-    };
-    }, [user, isSuccess, dispatch, navigate]);
+        // JANGAN reset user di sini, cukup reset status error/success saja
+    }, [user, isSuccess, navigate]);
 
     const handleLogin = (e) => {
         e.preventDefault();
