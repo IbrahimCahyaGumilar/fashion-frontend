@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
-
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getMe } from "./features/authSlice";
 
 // Import Pages
@@ -23,59 +22,78 @@ import PrivateRoute from './routes/PrivateRoute';
 import Layout from './components/Layout';
 import LoadingScreen from './components/common/LoadingScreen';
 
-// 1. Komponen ini menangani Logika Loading setiap pindah halaman
 const AppContent = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
 
+  // 1. Ambil status loading asli dari Redux Auth
+  const { isLoading: authLoading } = useSelector((state) => state.auth);
+
+  // 2. State untuk loading animasi visual (minimal loading)
+  const [manualLoading, setManualLoading] = useState(true);
+
+  // Jalankan pengecekan sesi (getMe) hanya saat pertama kali app dibuka
   useEffect(() => {
     dispatch(getMe());
   }, [dispatch]);
 
-
-  const [isLoading, setIsLoading] = useState(true);
-  const location = useLocation();
-
+  // Handle loading visual setiap kali pindah halaman
   useEffect(() => {
-    setIsLoading(true);
+    setManualLoading(true);
     const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1800);
+      setManualLoading(false);
+    }, 1500); // Durasi loading screen minimal
     return () => clearTimeout(timer);
   }, [location.pathname]);
 
+  /** 
+   * ANTI-FLICKER LOGIC:
+   * Aplikasi dianggap loading jika:
+   * - Sedang menunggu respon dari backend (authLoading)
+   * - Sedang menjalankan animasi transisi (manualLoading)
+   */
+  const isGlobalLoading = authLoading || manualLoading;
+
   return (
     <>
+      {/* Tampilkan LoadingScreen selama isGlobalLoading true */}
       <AnimatePresence mode="wait">
-        {isLoading && <LoadingScreen key={location.pathname} />}
+        {isGlobalLoading && <LoadingScreen key="global-loader" />}
       </AnimatePresence>
 
-      <Routes location={location} key={location.pathname}>
-        {/* Public Routes */}
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/product" element={<Product />} />
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/tes" element={<Tes />} />
-        <Route path="/blog/:slug" element={<BlogDetail />} />
+      {/* 
+        PENTING: Jangan render Routes jika masih loading. 
+        Ini mencegah PrivateRoute memantulkan user ke /login 
+        saat data sesi dari backend belum diterima.
+      */}
+      {!isGlobalLoading && (
+        <Routes location={location} key={location.pathname}>
+          {/* Public Routes */}
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/product" element={<Product />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/tes" element={<Tes />} />
+          <Route path="/blog/:slug" element={<BlogDetail />} />
 
-        {/* Protected Routes */}
-        <Route element={<PrivateRoute allowedRoles={["admin", "user"]} />}>
-          <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
-          <Route path="/manage-blog" element={<Layout><ManageBlog /></Layout>} />
-        </Route>
+          {/* Protected Routes (User & Admin) */}
+          <Route element={<PrivateRoute allowedRoles={["admin", "user"]} />}>
+            <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
+            <Route path="/manage-blog" element={<Layout><ManageBlog /></Layout>} />
+          </Route>
 
-        {/* Admin Routes */}
-        <Route element={<PrivateRoute allowedRoles={["admin"]} />}>
-          <Route path="/manage-user" element={<Layout><ManageUsers /></Layout>} />
-        </Route>
-      </Routes>
+          {/* Admin Only Routes */}
+          <Route element={<PrivateRoute allowedRoles={["admin"]} />}>
+            <Route path="/manage-user" element={<Layout><ManageUsers /></Layout>} />
+          </Route>
+        </Routes>
+      )}
     </>
   );
 };
 
-// 2. Komponen Utama App
 function App() {
   return (
     <BrowserRouter>
