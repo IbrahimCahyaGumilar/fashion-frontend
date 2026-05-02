@@ -18,8 +18,10 @@ const Dashboard = () => {
 
     
     useEffect(() => {
-        if (!isLoading && (isError || !user)) {
-            navigate("/login");
+       if (!isLoading) {
+            if (isError || !user) {
+                navigate("/login");
+            }
         }
     }, [isLoading, isError, user, navigate]);
 
