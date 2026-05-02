@@ -1,35 +1,39 @@
 import React, { useEffect } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getMe } from '../features/authSlice';
 
 const PrivateRoute = ({ allowedRoles }) => {
     const dispatch = useDispatch();
+    const location = useLocation();
     const { user, isLoading, isError } = useSelector((state) => state.auth);
 
     useEffect(() => {
-        // Jika data user belum ada, coba ambil data session
-        if (!user) {
+        // Hanya panggil getMe jika user kosong DAN tidak sedang loading DAN tidak sedang error
+        if (!user && !isLoading && !isError) {
             dispatch(getMe());
         }
-    }, [dispatch, user]);
+    }, [dispatch, user, isLoading, isError]);
 
-    // TAMPILKAN LOADING (SANGAT PENTING)
-    // Supaya tidak langsung dilempar ke login saat refresh
+    // 1. TAMPILKAN LOADING SELAMA PROSES PENGECEKAN
     if (isLoading) {
         return (
-            <div className="h-screen w-full flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-slate-900"></div>
+            <div className="h-screen w-full flex items-center justify-center bg-slate-50">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-slate-900 mx-auto"></div>
+                    <p className="mt-4 text-slate-600">Menyinkronkan Sesi...</p>
+                </div>
             </div>
         );
     }
 
-    // Jika sudah selesai loading dan tetap tidak ada user (atau error session)
-    if (isError || (!user && !isLoading)) {
-        return <Navigate to="/login" replace />;
+    // 2. JIKA ERROR ATAU TIDAK ADA USER (SETELAH LOADING SELESAI)
+    // Gunakan pengecekan yang sangat ketat agar tidak salah lempar
+    if (!isLoading && (isError || !user)) {
+        return <Navigate to="/login" state={{ from: location }} replace />;
     }
 
-    // Cek Role
+    // 3. CEK ROLE
     if (allowedRoles && !allowedRoles.includes(user?.role)) {
         return <Navigate to="/dashboard" replace />;
     }
