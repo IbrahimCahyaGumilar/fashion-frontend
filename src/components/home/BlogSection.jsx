@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import BlogSlider from './BlogSlider'
 import axios from "axios";
+import api from '../../api/axios';
 
 const BlogSection = () => {
     const [blogs, setBlogs] = useState([]);
@@ -9,7 +10,7 @@ const BlogSection = () => {
     useEffect(() => {
         const getBlogs = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/blogs");
+                const response = await api.get("/blogs");
                 setBlogs(response.data);
             } catch (error) {
                 console.error("Gagal mengambil data blog:", error);

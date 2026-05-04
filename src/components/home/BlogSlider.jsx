@@ -45,7 +45,7 @@ const BlogSlider = ({ blogs }) => {
                     <SwiperSlide key={blog.uuid} className="p-3 md:!w-80">
                         <div className="bg-white shadow-lg rounded-lg overflow-hidden h-full flex flex-col w-full">
                             <img
-                                src={`http://localhost:5000/images/${blog.image}`}
+                                src={blog.image}
                                 alt={blog.title}
                                 className="w-full h-48 object-cover shrink-0"
                             />
