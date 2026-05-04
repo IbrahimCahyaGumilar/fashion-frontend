@@ -9,7 +9,7 @@ import "swiper/css/navigation";
 import icArrowBack from "../../assets/images/icons/ic-arrow-back.svg";
 import icArrowNext from "../../assets/images/icons/ic-arrow-next.svg";
 
-// Terima blogs sebagai props dari BlogSection
+
 const BlogSlider = ({ blogs }) => {
     return (
         <div className="relative w-full overflow-hidden">
@@ -73,7 +73,7 @@ const BlogSlider = ({ blogs }) => {
                     </SwiperSlide>
                 ))}
 
-                {/* Tombol navigasi hanya tampil jika blog lebih dari 1 */}
+                
                 {blogs.length > 1 && (
                     <>
                         <button className="prev-blog absolute left-0 lg:left-4 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white shadow-md p-2 rounded-full cursor-pointer transition-all">

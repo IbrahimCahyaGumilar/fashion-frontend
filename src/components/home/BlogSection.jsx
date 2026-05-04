@@ -20,10 +20,10 @@ const BlogSection = () => {
         getBlogs();
     }, []);
 
-    // JANGAN tampilkan apapun jika API belum selesai merespon
+    
     if (!isLoaded) return null;
 
-    // JIKA data blogs kosong setelah API selesai merespon, sembunyikan seluruh section
+
     if (blogs.length === 0) return null;
 
     return (
@@ -39,7 +39,7 @@ const BlogSection = () => {
                     </p>
                 </div>
 
-                {/* Kirim data blogs ke Slider sebagai props */}
+
                 <BlogSlider blogs={blogs} />
             </div>
         </div>

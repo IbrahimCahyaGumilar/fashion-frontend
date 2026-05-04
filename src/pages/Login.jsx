@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LoginUser, reset } from "../features/authSlice";
 import { Eye, EyeOff } from "lucide-react";
 
@@ -16,24 +16,25 @@ const Login = () => {
         (state) => state.auth
     );
 
-    // HANYA pindah ke dashboard jika user ada ATAU login sukses
+
+
     useEffect(() => {
         if (user || isSuccess) {
             navigate("/dashboard");
         }
-        // JANGAN reset user di sini, cukup reset status error/success saja
+        
     }, [user, isSuccess, navigate]);
 
     const handleLogin = (e) => {
         e.preventDefault();
-        dispatch(reset()); // Bersihkan error sebelumnya sebelum login baru
+        dispatch(reset());
         dispatch(LoginUser({ email, password }));
     };
 
     return (
         <div className="bg-slate-50 w-full h-screen flex items-center justify-center p-4">
             <form onSubmit={handleLogin} className="bg-white px-8 py-10 shadow-xl rounded-2xl flex flex-col gap-5 w-full max-w-[450px]">
-                <h1 className="text-4xl text-center font-bold border-b pb-2">Login</h1>
+                <Link to="/" className="text-4xl text-center font-bold border-b pb-2">Login</Link>
 
                 {isError && (
                     <div className="bg-red-100 text-red-700 p-3 rounded text-center text-sm">
@@ -66,7 +67,7 @@ const Login = () => {
 
                 <button
                     type="submit"
-                    className="bg-slate-900 text-white py-3 rounded-lg font-bold hover:bg-slate-800 disabled:bg-slate-400 transition"
+                    className="bg-slate-900 text-white py-3 rounded-lg font-bold hover:bg-slate-800 disabled:bg-slate-400 transition cursor-pointer"
                     disabled={isLoading}
                 >
                     {isLoading ? "Memproses..." : "Masuk Ke Dashboard"}
