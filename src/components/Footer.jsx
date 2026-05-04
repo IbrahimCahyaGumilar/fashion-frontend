@@ -14,8 +14,8 @@ const Footer = () => {
 
                     <div className="flex flex-col gap-4 text-justify">
                         <h1 className="font-logo text-5xl font-bold">Cutting</h1>
-                        <p className="max-w-48 text-gray-400">
-                            Penyedia jasa konveksi dan garment profesional di Jakarta.
+                        <p className="max-w-48 text-white">
+                            Penyedia jasa produksi pakaian berkualitas untuk berbagai kebutuhan
                         </p>
                     </div>
 
@@ -81,7 +81,7 @@ const Footer = () => {
                                 </p>
                             </li>
                             <li>
-                                <div className="flex items-start gap-4 font-semibold text-gray-300">
+                                <div className="flex items-start gap-4 font-semibold text-white">
                                     <img src={icLocation} alt="icon location" className="mt-1" />
                                     <p>Jl. Melati Indah No. 25, Blok B2
                                         Kecamatan Sukajadi
