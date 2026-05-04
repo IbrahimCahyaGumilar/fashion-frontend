@@ -1,6 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; // Pastikan import ini ada
 
+import icArrow from "../assets/icons/ic-right.png";
+import icMail from "../assets/icons/ic-mail.png";
+import icLocation from "../assets/icons/ic-location.png";
+
+
 const Footer = () => {
     return (
         <footer className="bg-slate-900">
@@ -20,19 +25,19 @@ const Footer = () => {
                         <ul className="flex flex-col gap-3">
                             <li>
                                 <Link to="/" className="flex items-center gap-2 font-semibold hover:text-cyan-500 transition-colors">
-                                    <img src="/src/assets/images/icons/ic-right.png" alt="icon arrow" />
+                                    <img src={icArrow} alt="icon arrow" />
                                     Beranda
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/about" className="flex items-center gap-2 font-semibold hover:text-cyan-500 transition-colors">
-                                    <img src="/src/assets/images/icons/ic-right.png" alt="icon arrow" />
+                                    <img src={icArrow} alt="icon arrow" />
                                     Tentang
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/product" className="flex items-center gap-2 font-semibold hover:text-cyan-500 transition-colors">
-                                    <img src="/src/assets/images/icons/ic-right.png" alt="icon arrow" />
+                                    <img src={icArrow} alt="icon arrow" />
                                     Produk
                                 </Link>
                             </li>
@@ -46,19 +51,19 @@ const Footer = () => {
                             {/* Tips: Arahkan ke halaman produk dengan state atau query filter */}
                             <li>
                                 <Link to="/product" className="flex items-center gap-2 font-semibold hover:text-cyan-500 transition-colors">
-                                    <img src="/src/assets/images/icons/ic-right.png" alt="icon arrow" />
+                                    <img src={icArrow} alt="icon arrow" />
                                     All
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/product" className="flex items-center gap-2 font-semibold hover:text-cyan-500 transition-colors">
-                                    <img src="/src/assets/images/icons/ic-right.png" alt="icon arrow" />
+                                    <img src={icArrow} alt="icon arrow" />
                                     Male
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/product" className="flex items-center gap-2 font-semibold hover:text-cyan-500 transition-colors">
-                                    <img src="/src/assets/images/icons/ic-right.png" alt="icon arrow" />
+                                    <img src={icArrow} alt="icon arrow" />
                                     Female
                                 </Link>
                             </li>
@@ -71,14 +76,17 @@ const Footer = () => {
                         <ul className="flex flex-col gap-6">
                             <li>
                                 <p className="flex items-center gap-4 font-semibold">
-                                    <img src="/src/assets/images/icons/ic-mail.png" alt="icon mail" />
+                                    <img src={icMail} alt="icon mail" />
                                     cutting@gmail.com
                                 </p>
                             </li>
                             <li>
                                 <div className="flex items-start gap-4 font-semibold text-gray-300">
-                                    <img src="/src/assets/images/icons/ic-location.png" alt="icon location" className="mt-1" />
-                                    <p>Grand Indonesia West Mall, Lt. 3A No. 21, Jakarta Pusat 10310</p>
+                                    <img src={icLocation} alt="icon location" className="mt-1" />
+                                    <p>Jl. Melati Indah No. 25, Blok B2
+                                        Kecamatan Sukajadi
+                                        Bandung 40162
+                                        Jawa Barat, Indonesia</p>
                                 </div>
                             </li>
                         </ul>
