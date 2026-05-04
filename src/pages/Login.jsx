@@ -34,7 +34,7 @@ const Login = () => {
     return (
         <div className="bg-slate-50 w-full h-screen flex items-center justify-center p-4">
             <form onSubmit={handleLogin} className="bg-white px-8 py-10 shadow-xl rounded-2xl flex flex-col gap-5 w-full max-w-[450px]">
-                <Link to="/" className="text-4xl text-center font-bold border-b pb-2">Login</Link>
+                <Link to="/" className="font-logo text-4xl text-center font-bold border-b pb-2">Cutting</Link>
 
                 {isError && (
                     <div className="bg-red-100 text-red-700 p-3 rounded text-center text-sm">
@@ -70,7 +70,7 @@ const Login = () => {
                     className="bg-slate-900 text-white py-3 rounded-lg font-bold hover:bg-slate-800 disabled:bg-slate-400 transition cursor-pointer"
                     disabled={isLoading}
                 >
-                    {isLoading ? "Memproses..." : "Masuk Ke Dashboard"}
+                    {isLoading ? "Memproses..." : "Sign in"}
                 </button>
             </form>
         </div>
