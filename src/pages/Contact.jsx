@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
-import banner from '../assets/images/home/banner.png';
+// import banner from '../assets/images/home/banner.png';
 import bgContact from '../assets/images/home/about.png';
 import { MapPin, Phone, Mail } from 'lucide-react';
 import HeroSection from '../components/common/HeroSection';
@@ -13,29 +13,35 @@ import HeroSection from '../components/common/HeroSection';
 const Contact = () => {
     const form = useRef();
 
-    const sendEmail = (e) => {
+    const sendEmail = async (e) => {
         e.preventDefault();
 
-        emailjs.sendForm(
-            'service_z8zew2b', // Ganti dengan Service ID Anda
-            'template_7lfvgp5', // Ganti dengan Template ID Anda
-            form.current,
-            '7ZPlAECf_qSGFZKH7' // Ganti dengan Public Key Anda
-        )
-            .then((result) => {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Berhasil!',
-                    text: 'Pesan Anda telah terkirim.',
-                });
-                e.target.reset();
-            }, (error) => {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Gagal...',
-                    text: 'Terjadi kesalahan, silakan coba lagi.',
-                });
+        try {
+            const result = await emailjs.sendForm(
+                import.meta.env.VITE_EMAILJS_SERVICE_ID,
+                import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+                form.current,
+                import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+            );
+
+            console.log(result);
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: 'Pesan Anda telah terkirim.',
             });
+
+            e.target.reset();
+        } catch (error) {
+            console.log(error);
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal...',
+                text: 'Terjadi kesalahan, silakan coba lagi.',
+            });
+        }
     };
 
     return (
@@ -148,7 +154,7 @@ const Contact = () => {
                     </form>
                 </div>
             </section>
-            
+
             <Footer />
         </div>
     )

@@ -67,7 +67,7 @@ const Login = () => {
 
                 <button
                     type="submit"
-                    className="bg-slate-900 text-white py-3 rounded-lg font-bold hover:bg-slate-800 disabled:bg-slate-400 transition cursor-pointer"
+                    className="bg-slate-900 text-white py-3 rounded-lg font-bold hover:bg-slate-800 disabled:bg-slate-400 duration-500 transition cursor-pointer"
                     disabled={isLoading}
                 >
                     {isLoading ? "Memproses..." : "Sign in"}
